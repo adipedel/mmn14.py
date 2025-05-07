@@ -2,7 +2,7 @@
 Name: Adi Pedel
 Project: mmn14 contains:
 1.find_max - receives a list of numbers that was sorted in ascending order and was being shifted right k times.
-
+2.find_pairs - receives a list sorted in ascending order (lst) and a positive number k and returns the number of pairs that their difference is k.
 """
 
 """
@@ -35,3 +35,29 @@ def find_max(lst):
         return find_max(lst[0:len(lst) // 2])
     else:
         return find_max(lst[len(lst)//2:len(lst)-1])
+
+"""
+find_pairs is a function that receives a list sorted in ascending order (lst) and a positive number k. 
+the function returns the number of pairs that their difference is k.
+"""
+def find_pairs(lst,k):
+    count = 0
+    i = 0
+    j = 1
+    while i<len(lst)-2:
+        if j==len(lst)-1 and lst[j] - lst[i] < k:
+            break
+        if lst[j]-lst[i] == k:
+            count += 1
+            if j < len(lst)-1:
+                i += 1
+                j += 1
+        elif lst[j]-lst[i] > k:
+            if j-i > 1:
+                i += 1
+            elif j < len(lst)-1:
+                i += 1
+                j += 1
+        elif lst[j] - lst[i] < k and j < len(lst)-1:
+            j+=1
+    return count
