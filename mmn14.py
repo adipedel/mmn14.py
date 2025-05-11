@@ -61,3 +61,19 @@ def find_pairs(lst,k):
         elif lst[j] - lst[i] < k and j < len(lst)-1:
             j+=1
     return count
+
+"""
+update_list is a function that receives a list of numbers and a value. It will return the list without the
+given value using recursion. If the value appears in the list more than once, only the first item with that value will be
+removed from the list.
+"""
+def update_list(lst,value):
+    if lst[0] == value:
+        if len(lst) == 1:
+            return []
+        else:
+            return lst[1::]
+    elif len(lst) == 1:
+        return [lst[0]]
+    else:
+        return [lst[0]]+update_list(lst[1::], value)
