@@ -77,3 +77,23 @@ def update_list(lst,value):
         return [lst[0]]
     else:
         return [lst[0]]+update_list(lst[1::], value)
+
+"""
+equal_lists is a function that receives two list of numbers. The function will return True if the lists
+are equal in their size and values(not in order). The function will use the function update_list, to take
+out a value from the two list recursively until one of the lists is empty. If the two list remains equal
+in size each call, they meet the conditions and the function will return True.
+"""
+def equal_lists(lst1, lst2):
+    if lst1 == lst2 == []:
+        return True
+    elif lst1 == [] or lst2 == []:
+        return False
+    else:
+        value = lst1[0]
+        lst1 = update_list(lst1, value)
+        lst2 = update_list(lst2, value)
+        result = equal_lists(lst1, lst2)
+        return result
+
+
