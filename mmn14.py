@@ -3,6 +3,9 @@ Name: Adi Pedel
 Project: mmn14 contains:
 1.find_max - receives a list of numbers that was sorted in ascending order and was being shifted right k times.
 2.find_pairs - receives a list sorted in ascending order (lst) and a positive number k and returns the number of pairs that their difference is k.
+3.update_list - receives a list of numbers and a value, and returns the list without the value.
+4.qual_lists - receives two list of numbers, and checks if the lists are equal in their size and values(not in order)
+5.is_palindrome - receives a list of strings and return true if each list is a palindrome and together they formed a palindrome.
 """
 
 """
@@ -31,33 +34,37 @@ def find_max(lst):
     first_item = lst[0]
     middle_item = lst[len(lst) // 2]
     last_item = lst[len(lst)-1]
-    if first_item<middle_item<last_item:
+    if first_item<middle_item<last_item:        #maximum value has to be the last item
         return last_item
-    elif first_item>last_item>middle_item:
+    elif first_item>last_item>middle_item:      #maximun value has to be in the first half, sending it to the function
         return find_max(lst[0:len(lst) // 2])
     else:
-        return find_max(lst[len(lst)//2:len(lst)-1])
+        return find_max(lst[len(lst)//2:len(lst)-1])        #maximun value has to be in the second half, sending it to the function
 
 """
 find_pairs is a function that receives a list sorted in ascending order (lst) and a positive number k. 
 the function returns the number of pairs that their difference is k.
+the function does it with by comparing 2 items (a,b) in the list. if their difference is less than k, than we need
+to take a bigger number than b for a chance of finding numbers with k difference. but if their difference is
+bigger than k,  than we need to take a bigger number than a for a chance of finding numbers with k difference.
+(unless a and b are consecutive numbers, and we will have to change both of them)
 """
 def find_pairs(lst,k):
     count = 0
     i = 0
     j = 1
     while i<len(lst)-2:
-        if j==len(lst)-1 and lst[j] - lst[i] < k:
+        if j==len(lst)-1 and lst[j] - lst[i] < k:   #no more numbers in the list to compare
             break
-        if lst[j]-lst[i] == k:
-            count += 1
-            if j < len(lst)-1:
+        if lst[j]-lst[i] == k:      #we have found 2 numbers with k difference
+            count += 1              #the number of pairs with k difference
+            if j < len(lst)-1:      #ncreasing both numbers
                 i += 1
                 j += 1
         elif lst[j]-lst[i] > k:
-            if j-i > 1:
+            if j-i > 1:         #not consecutive numbers
                 i += 1
-            elif j < len(lst)-1:
+            elif j < len(lst)-1:    #consecutive numbers
                 i += 1
                 j += 1
         elif lst[j] - lst[i] < k and j < len(lst)-1:
@@ -112,43 +119,45 @@ palindrome in thr whole list or if the list is empty.
 
 """
 def is_palindrome(lst):
-    if len(lst) == 0:
+    if len(lst) == 0:           #list is empty, it's a palindrome
         return True
-    if len(lst) == 1 :
-        if len(lst[0]) == 1:
+    if len(lst) == 1 :          #list contains 1 string
+        if len(lst[0]) == 1:        #string is 1 char, it's a palindrome
             return True
         if len(lst[0]) == 2:
-            if lst[0][0] == lst[0][-1]:
+            if lst[0][0] == lst[0][-1]:         #string is 2 equal chars, it's a palindrome
                 return True
-            else:
+            else:                           #string is 2 unequal chars, it's not a palindrome
                 return False
-        else:
-            if lst[0][0] == lst[0][-1]:
-                lst[0] = lst[0][1:-1]
-                if is_palindrome(lst):
+        else:                        #string is longer than 2 chars
+            if lst[0][0] == lst[0][-1]:        #chars in the beginning and end of the string are equal
+                lst[0] = lst[0][1:-1]          #trimming the string to check if the middle is a palindrome
+                if is_palindrome(lst):          #sending the list with the updated string to the function
                     return True
-                else:
+                else:                   #the middle of the string is not a palindrome
                     return False
-            else:
+            else:            #chars in the beginning and end of the string are not equal, not a palindrome
                 return False
-    else:
-        if len(lst[0]) != len(lst[-1]):
+    else:                        #list contains at list 2 strings
+        if len(lst[0]) != len(lst[-1]):   #strings in the beginning and end of the list are not equal, not a palindrome
             return False
-        if len(lst[0]) == 0 or  len(lst[0]) == 1:
-            lst = lst[1:-1]
-            if is_palindrome(lst):
+        if len(lst[0]) == 0 or len(lst[0]) == 1:        #string length is 0 or 1
+            if len(lst[0]) == 1 and  lst[0][0] != lst[1][0]:
+                return False     #string length is 1 and the chars are not equal, not palindorme
+            lst = lst[1:-1]        #trimming the list, to check if the strings in the middle are palindromes
+            if is_palindrome(lst):      #sending the list with the updated string to the function
                 return True
             else:
                 return False
-        if lst[0][0] == lst[0][-1] == lst[-1][0] == lst[-1][-1]:
-            if len(lst[0]) == 2:
-                lst = lst[1:-1]
+        if lst[0][0] == lst[0][-1] == lst[-1][0] == lst[-1][-1]:        #the chars in the beginning and end are equal
+            if len(lst[0]) == 2:         #string length is 2
+                lst = lst[1:-1]          #trimming the list, to check if the strings in the middle are palindromes
                 if is_palindrome(lst):
                     return True
                 else:
                     return False
-            else:
-                lst[0], lst[-1] = lst[0][1:-1], lst[-1][1:-1]
+            else:               #string length is bigger than 2
+                lst[0], lst[-1] = lst[0][1:-1], lst[-1][1:-1] #trimming the strings, to check if the middle is palindrome
                 if is_palindrome(lst):
                     return True
                 else:
