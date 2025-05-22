@@ -1,11 +1,29 @@
 """
-Name: Adi Pedel
-Project: mmn14 contains:
-1.find_max - receives a list of numbers that was sorted in ascending order and was being shifted right k times.
-2.find_pairs - receives a list sorted in ascending order (lst) and a positive number k and returns the number of pairs that their difference is k.
-3.update_list - receives a list of numbers and a value, and returns the list without the value.
-4.qual_lists - receives two list of numbers, and checks if the lists are equal in their size and values(not in order)
-5.is_palindrome - receives a list of strings and return true if each list is a palindrome and together they formed a palindrome.
+Author: Adi Pedel
+Project: MMN14
+
+This module contains the following functions:
+
+1. find_max(lst):
+   Finds the maximum value in a list that was initially sorted in ascending order
+   and then rotated k times to the right (0 ≤ k < len(lst)).
+
+2. find_pairs(lst, k):
+   Returns the number of unique pairs in a sorted list where the difference
+   between the elements is exactly k.
+
+3. update_list(lst, value):
+   Removes the first occurrence of a given value from the list using recursion.
+
+4. equal_lists(lst1, lst2):
+   Checks whether two lists contain the same elements (regardless of order)
+   and are of the same length, using recursion.
+
+5. is_palindrome(lst):
+   Checks whether:
+     a) Each individual string in the list is a palindrome.
+     b) The list itself forms a palindrome structure.
+   All checks are performed recursively.
 """
 
 def find_max(lst):
