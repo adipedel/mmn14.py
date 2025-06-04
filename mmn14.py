@@ -94,22 +94,21 @@ def find_pairs(lst,k):
     count = 0
     i = 0
     j = 1
-    while i<len(lst)-2:
-        if j==len(lst)-1 and lst[j] - lst[i] < k:   #no more numbers in the list to compare
-            break
-        if lst[j]-lst[i] == k:      #we have found 2 numbers with k difference
-            count += 1              #the number of pairs with k difference
-            if j < len(lst)-1:      #ncreasing both numbers
-                i += 1
-                j += 1
-        elif lst[j]-lst[i] > k:
-            if j-i > 1:         #not consecutive numbers
-                i += 1
-            elif j < len(lst)-1:    #consecutive numbers
-                i += 1
-                j += 1
-        elif lst[j] - lst[i] < k and j < len(lst)-1:
-            j+=1
+
+    while i < len(lst) - 1 and j < len(lst):
+        diff = lst[j] - lst[i]
+
+        if diff == k:
+            count += 1
+            i += 1
+            j += 1
+        elif diff < k:
+            j += 1
+        else:  # diff > k
+            i += 1
+            if i >= j:  # Ensure j is always ahead of i
+                j = i + 1
+
     return count
 
 
