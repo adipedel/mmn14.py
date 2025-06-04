@@ -175,7 +175,8 @@ def equal_lists(lst1, lst2):
 
 
 def is_palindrome(lst):
-    """
+    def is_palindrome(lst):
+        """
         Checks whether a list of strings forms a palindrome structure both individually and collectively.
 
         A list is considered a valid palindrome if:
@@ -186,57 +187,17 @@ def is_palindrome(lst):
         - Compare characters at the beginning and end of each string.
         - Trim matching characters from both ends.
         - Compare strings from both ends of the list to see if they mirror each other.
-
-        It continues until all strings are reduced to empty or one character, or until a mismatch is found.
-
         Args:
             lst (list): A list of strings.
-
         Returns:
             bool: True if each string is a palindrome and the overall list is also a palindrome; False otherwise.
         """
-    if len(lst) == 0:           #list is empty, it's a palindrome
-        return True
-    if len(lst) == 1 :          #list contains 1 string
-        if len(lst[0]) == 1:        #string is 1 char, it's a palindrome
-            return True
-        if len(lst[0]) == 2:
-            if lst[0][0] == lst[0][-1]:         #string is 2 equal chars, it's a palindrome
-                return True
-            else:                           #string is 2 unequal chars, it's not a palindrome
-                return False
-        else:                        #string is longer than 2 chars
-            if lst[0][0] == lst[0][-1]:        #chars in the beginning and end of the string are equal
-                lst[0] = lst[0][1:-1]          #trimming the string to check if the middle is a palindrome
-                if is_palindrome(lst):          #sending the list with the updated string to the function
-                    return True
-                else:                   #the middle of the string is not a palindrome
-                    return False
-            else:            #chars in the beginning and end of the string are not equal, not a palindrome
-                return False
-    else:                        #list contains at list 2 strings
-        if len(lst[0]) != len(lst[-1]):   #strings in the beginning and end of the list are not equal, not a palindrome
-            return False
-        if len(lst[0]) == 0 or len(lst[0]) == 1:        #string length is 0 or 1
-            if len(lst[0]) == 1 and  lst[0][0] != lst[1][0]:
-                return False     #string length is 1 and the chars are not equal, not palindorme
-            lst = lst[1:-1]        #trimming the list, to check if the strings in the middle are palindromes
-            if is_palindrome(lst):      #sending the list with the updated string to the function
-                return True
-            else:
-                return False
-        if lst[0][0] == lst[0][-1] == lst[-1][0] == lst[-1][-1]:        #the chars in the beginning and end are equal
-            if len(lst[0]) == 2:         #string length is 2
-                lst = lst[1:-1]          #trimming the list, to check if the strings in the middle are palindromes
-                if is_palindrome(lst):
-                    return True
-                else:
-                    return False
-            else:               #string length is bigger than 2
-                lst[0], lst[-1] = lst[0][1:-1], lst[-1][1:-1] #trimming the strings, to check if the middle is palindrome
-                if is_palindrome(lst):
-                    return True
-                else:
-                    return False
-        else:
-            return False
+    if len(lst) <= 1:        # Base cases
+        return not lst or lst[0] == lst[0][::-1]
+    first, last = lst[0], lst[-1]   # Check structure: first and last must have same length and matching outer chars
+    if len(first) != len(last) or not first or first[0] != last[0] or first[-1] != last[-1]:
+        return False
+    if len(first) <= 2:          # If strings are length 1 or 2, trim the list and recurse
+        return is_palindrome(lst[1:-1])
+    new_lst = [first[1:-1]] + lst[1:-1] + [last[1:-1]]      # Trim outer characters from first and last strings
+    return is_palindrome(new_lst)
